@@ -1,0 +1,286 @@
+/*Introdução a variaveis - transições - transformações - responsividade - filtros - clamp - grid */
+/*hsla = A função HSL tem o formato geral hsl(H, S, L). Ela admite três parâmetros, que definem Hue = tom, Saturation = saturação e Lightness = luminosidade da cor.
+A função HSLA tem o formato geral hsla(H, S, L, A). Ela admite um quarto parâmetro A (canal alpha da cor) que definine a opacidade.
+O primeiro número é o matiz = é a cor em si, suas alterações são feitas na barra que fica a direita, o segundo é a saturação = peso da cor em %, é o terceiro é a luminosidade da cor */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /*tag raiz, introduz definições para todo o código*/
+  font-size: 62.5%; /*font-size padrão do navegador é de 16px > 62,5% disso é 10px, ou seja para usar a responsividade fica mais prático*/
+  --fs-body: 1.6rem; /*font-size body*/
+  --fs-heading: clamp(
+    4rem,
+    1rem + 5vw,
+    5.6rem
+  ); /*font-size header - clamp é uma função com 3 argumentos em ordem é o valor minimo - o ideal - e o maximo
+  sendo que o valor ideal que é o central ele é flexivel, 1rem + 5vw (vw = viewport = janela de exibição que é dividida em 100 partes iguais) ou seja de acordo com a maximização ou minimização da tela a fonte diminui ou aumenta 1rem*/
+  --fs-heading-sm: clamp(
+    3rem,
+    0.5rem + 3vw,
+    4rem
+  ); /*Função clamp para utilizar no h2 que está acarretando varias quebras de página (overflow = transbordamento) - Para chegar nesta número responsivo temos que ir testando atráves do DevTools ou dentro do código msm até chegar em um número que evite o overflow*/
+
+  --ff-heading: 'Epilogue', sans-serif; /* font-family do cabeçalho*/
+  /*--ff-texting: 'Open sans', sans-serif;  font-family do texto*/
+
+  --hue: 250; /*definindo a cor padrão da página*/
+  --bg-primary: hsl(var(--hue), 22%, 20%); /* background color*/
+  --fc-primary: hsl(var(--hue), 0%, 100%); /* font color*/
+  --fc-secondary: hsl(var(--hue), 50%, 80%);
+  --fc-third: hsl(var(--hue), 100%, 11%);
+}
+
+body {
+  font-weight: 400;
+
+  font-size: var(
+    --fs-body
+  ); /*ou seja 1.6 * 10px = 16px padrão do navegador porém agora de forma responsiva*/
+
+  font-family: var(--ff-heading);
+
+  background-color: var(--bg-primary);
+  color: var(--fc-primary);
+}
+
+.page {
+  max-width: clamp(
+    33rem,
+    30rem + 60vw,
+    117rem
+  ); /*---OTIMIZADO PELO CLAMP AQUI!!! Largura máxima dos itens dentro do body*/
+  padding: 0 5rem;
+  margin: 0 auto; /*Centralizou a tag .page dentro do body*/
+}
+
+main {
+  display: grid; /*ATENÇÃO!!!*/
+  gap: 3.2rem;
+
+  /*display:flex;
+  flex-direction:column;
+  gap:3.2rem --- poderia ser desta forma támbem, para adcionar um espaçamento entre os cards;*/
+
+  margin-bottom: 10.5rem;
+}
+
+img {
+  width: 100%; /*Ou seja a imagem se restringirá a 100% do espaço definido na tag .page = ela não fez o overflow (transbordou) a caixa a qual ela está inserida*/
+  height: auto;
+}
+
+header {
+  margin: 10rem 0 8rem;
+  text-align: center; /*Alinhando os textos do header ao centro da página*/
+}
+
+header h1 {
+  font-weight: 800;
+  font-size: var(--fs-heading);
+  line-height: 4.8rem;
+
+  animation: rl 850ms 350ms backwards ease-out;
+}
+
+header p {
+  color: var(--fc-secondary);
+  text-transform: uppercase;
+
+  line-height: 3.2rem;
+  letter-spacing: 3px;
+
+  margin-bottom: 1.7rem;
+
+  animation: lr 850ms 350ms backwards ease-out;
+}
+
+.card {
+  position: relative; /*ATENÇÃO!!! Aqui solucionamo o problema - tornando o position absulute relativo ao .card*/
+}
+
+.card img:hover {
+  transform: scale(
+    1.1
+  ); /*ATENÇÃO!!! - Aqui transformamos a escala da imagem em 10%, mas esta propriedade ela faz de diretamente, sem transição*/
+  filter: brightness(1) saturate(2) blur(3px); /*Volta para o brilho normal*/
+  /*opacity: 0.5;*/
+}
+
+.card img {
+  height: 41.6rem; /*Definiu uma altura comúm a todas as img*/
+  object-fit: cover; /*= ajuste de objeto - define que o img em si é uma caixa e o src é a imagem que será enquadrada como um objeto - e o cover (cobrir) esticara a imagem dentro da altura definida para caixa de forma que a imagem não fique desconfigurada*/
+
+  border-radius: 0.6rem;
+
+  transition: all 350ms 150ms ease-out; /*ATENÇÃO!!! Short hand = ou seja encurtamos o código, dizendo que as propriedades definidas como all serão aplicadas tanto no transform como na opacidade, a duração será de 350ms e ocorrerá em esse-out, o segundo tempo é do delay*/
+
+  /*transition-property: transform; ATENÇÃO!!! Aqui especificamos que a transição da imagem será da propriedade transform*/
+  /*transition-duration: 350ms; Aqui definimos que a transição se transformará em 350 milisegundos*/
+  /*transition-delay: 150ms; Aqui definimos que o delay (atraso) ocorrerá dentro de 150 milisegundos, ou seja vai demorar este tempo para fazer a transformação*/
+  /*transition-timing-function: ease-out; Aqui definimos a suavidade do movimento a ser feito pela transição (ou seja pode começar rápido e terminar devagar e vice-versa), está função pode ser melhor trabalhada no DevTools, onde conseguimos ver as linhas de transição*/
+
+  animation: downtop 850ms 350ms backwards ease-out;
+
+  filter: brightness(0.5) saturate(1.5);
+  /*Filtros, formas além da opacidade para dar mais contraste aos texto...
+  blur(5px) = embassar*/
+}
+
+.card h2 {
+  position: absolute; /*Utilizado em casos de sobreposição de elementos*/
+  bottom: 5.2rem;
+  left: 2.8rem; /*Todos os elementos h2 ficam sobrepostos no mesmo lugar em relação ao viewport (janela de exibição) da página*/
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.3rem;
+
+  font-weight: 800;
+  font-size: var(--fs-heading-sm);
+  line-height: 4.8rem;
+
+  color: var(--fc-primary);
+
+  animation: topdown 850ms 350ms backwards ease-out;
+}
+
+.card h2 span {
+  /*Atenção que o span acaba não recebendo algumas propriedade por si só por conta do seu display*/
+  font-size: var(--fs-body);
+  line-height: 3.2rem;
+  font-weight: 400;
+
+  color: var(--fc-third);
+
+  padding: 0 1.6rem;
+  border-radius: 2rem;
+
+  background-color: var(--fc-primary);
+
+  width: fit-content; /*IMPORTANTE, a caixa do span estava se esticando de acordo com a largura do h2 toda, ou seja a caixa branca estava se esticando para a direita, nesta tag falamos que a largura tem que se adequar ao conteúdo, ou seja fit-cotent = adequar ao conteúdo*/
+}
+
+@keyframes lr {
+  /*topdown é apenas o nome*/
+
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes rl {
+  /*topdown é apenas o nome*/
+
+  0% {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes downtop {
+  /*topdown é apenas o nome - keywards = palavra-chave*/
+
+  0% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes topdown {
+  /*topdown é apenas o nome - keywards = palavra-chave*/
+
+  0% {
+    opacity: 0;
+    transform: scale(2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (min-width: 700px) {
+  /*Importante frisar que as propriedade utilizadas no valor menor serão oproveitadas no valor maior a menos que sejam alteradas!!!!*/
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /*:root {
+    --fs-heading: 5.6rem;
+  } Retirado por conta da função clamp*/
+
+  /*.page {
+    max-width: 117rem; Ou seja quando a página tiver mais de 1170px o conteúdo do cógigo para de crescer
+
+    padding: 0 5rem; Quando a página estiver com mais de 700px ela terá um preenchimento lateram de 50px, para não ficar colada com as laterais
+  } --- OTIMIZADO PELO CLAMP*/
+}
+
+@media (min-width: 930px) {
+  /*De 700px para cima*/
+
+  main {
+    display: grid; /*Grid significa grelha ou seja você consegue alinha tanto as linhas como as colunas*/
+    /*grid-template-columns: 200px 500px 100px 200px; Aqui você determina o tamanha das colunas que pode ser por px fração (fr)  ou %*/
+    grid-template-areas:
+      'A B B'
+      'C C D';
+    /*O nome das áreas somos nós que definimos, assim podemos definir os espaços que cada .card ocupa em area dentro da página, mas é necessário especificar cada card com uma área como ocorre a abaixo*/
+  }
+
+  main div:nth-child(1) {
+    /*Ou seja o primeiro .card*/
+    grid-area: A;
+  }
+
+  main div:nth-child(2) {
+    grid-area: B;
+  }
+
+  main div:nth-child(3) {
+    grid-area: C;
+  }
+
+  main div:nth-child(4) {
+    grid-area: D;
+  }
+}
+
+/*header {
+  animation-name: aqui especificamos a keyframes
+  animation-duration: a duração da animação
+  animation-fill-mode: o ponto em que a animação para (forwards(para frente) = 0% e backwards(para trás) = 100%), para não rolar bug na tela
+  animation-direction: reverse (para que a animação aconteça ao contrario da ordem normal da keywards
+  animation-delay: definir o tempo de *atraso* para que aconteça a animação
+  animation-timing-function: ease (definir a linha de transição da animação - função de tempo)
+  animation-iteration-count: infinite (que a animação fique acontecendo sem parar - contagem de interação de animação)
+  animation-play-state: paused (pausar a animação até acontecer algo - estado de reprodução da animação)
+}
+
+header:hover {
+  animation-play-state:running (que a animação fique acontecendo enquanto o mouse passar por cima dela)
+}
+
+ATENÇÃO!!! - Ao utilizar o animation delay é importante que se use o animation-fill-mode para que a animação não fique bugada*/
