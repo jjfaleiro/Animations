@@ -1,9 +1,9 @@
-### Aprendendo conceitos de HTML e CSS
+### Learning HTML and CSS Concepts
 
-Estou aprendendo:
+I am learning:
 
-- Responsividade (@media)
-- Animações (@keyframes)
+- Responsiveness (@media)
+- Animations (@keyframes)
 - Transition, filter e animation
 
 ## 🔗 Links
